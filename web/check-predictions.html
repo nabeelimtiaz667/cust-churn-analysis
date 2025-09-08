@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Customer Churn Analytics</a>
+            <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <button class="btn btn-navbar-collapse d-lg-none" id="collapseNavBtn" aria-label="Collapse navigation">
+                <span class="fas fa-angle-up"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 nav-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="check-predictions.html">Check Predictions</a>
+                    </li>
+                </ul>
+                <div class="navbar-icons d-flex align-items-center ms-lg-3">
+                    <!-- Search Icon -->
+                    <div class="nav-icon position-relative me-3">
+                        <button class="btn btn-icon" id="searchBtn" aria-label="Search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div class="searchbar-container" id="searchbarContainer">
+                            <input type="text" class="form-control searchbar-input" placeholder="Search...">
+                            <button class="btn btn-close-search" id="closeSearchBtn" aria-label="Close search">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Notification Icon -->
+                    <div class="nav-icon position-relative me-3">
+                        <button class="btn btn-icon" id="notificationBtn" aria-label="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge notification-badge" id="notificationBadge">3</span>
+                        </button>
+                        <div class="dropdown-menu notifications-dropdown" id="notificationsDropdown">
+                            <div class="dropdown-header">Notifications</div>
+                            <div class="dropdown-item"><i class="fas fa-info-circle me-2"></i> New churn report
+                                available</div>
+                            <div class="dropdown-item"><i class="fas fa-user-plus me-2"></i> 5 new customers joined
+                            </div>
+                            <div class="dropdown-item"><i class="fas fa-exclamation-triangle me-2"></i> High churn risk
+                                detected</div>
+                        </div>
+                    </div>
+                    <!-- Profile Icon -->
+                    <div class="nav-icon position-relative">
+                        <button class="btn btn-icon" id="profileBtn" aria-label="Profile">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div class="dropdown-menu profile-dropdown" id="profileDropdown">
+                            <div class="dropdown-item"><i class="fas fa-user me-2"></i> My Profile</div>
+                            <div class="dropdown-item"><i class="fas fa-cog me-2"></i> Settings</div>
+                            <div class="dropdown-item"><i class="fas fa-shield-alt me-2"></i> Privacy</div>
+                            <div class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="vertical-navbar" id="verticalNavbar" style="display: none;">
+        <button class="btn btn-vertical-collapse" id="verticalCollapseBtn" aria-label="Toggle vertical navigation">
+            <span class="fas fa-bars"></span>
+        </button>
+        <div class="vertical-navbar-menu" id="verticalNavbarMenu">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html"><i class="fas fa-home me-2"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="check-predictions.html"><i class="fas fa-chart-line me-2"></i> Check
+                        Predictions</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="main.js" type="text/javascript"></script>
+</body>
+
+</html>
