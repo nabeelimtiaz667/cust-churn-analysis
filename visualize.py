@@ -270,7 +270,7 @@ class ChurnAnalysisApp(QMainWindow):
 
 def main():
     # Load and preprocess data
-    data = pd.read_csv("customer-churn-table.csv.csv")
+    data = pd.read_csv("customer-churn-table.csv")
 
     # Convert TotalCharges to numeric, handling empty strings
     data["TotalCharges"] = pd.to_numeric(data["TotalCharges"], errors="coerce")
