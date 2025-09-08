@@ -1,0 +1,15 @@
+----------------- INSTRUCTION TO RUN APP -----------------
+------- REQUIREMENTS -------
+- Python
+- Python Installer (PIP)
+- Python Libraries to Install:
+    - Pandas
+    - FastAPI
+!! RUN BELOW COMMAND AFTER INSTALLING PYTHON AND PIP TO INSTALL Libraries !!
+        # python -m pip install fastapi pandas
+
+------- RUNNING PYTHON API -------
+- go in src/ and run '''RUN API.bat'''. This will start api server.
+
+------- OPEN WEB -------
+- go in web/ and open index.html. Dashboard is ready to view.
