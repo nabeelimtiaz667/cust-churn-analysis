@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Analytics Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1>Customer Churn Analytics Dashboard</h1>
+                    <p class="lead">Analyze customer behavior and reduce churn</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-light">
+                            <i class="fas fa-download me-1"></i> Export Report
+                        </button>
+                        <button class="btn btn-light">
+                            <i class="fas fa-cog me-1"></i> Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Filters Section -->
+        <div class="filter-section">
+            <h3 class="section-title">Filters</h3>
+            <div class="row">
+                <div class="col-md-3 filter-control" style="display: none;">
+                    <label class="filter-label">Time Period</label>
+                    <select class="form-select" id="timePeriodFilter">
+                        <option selected>Last 30 days</option>
+                        <option>Last 90 days</option>
+                        <option>Last 6 months</option>
+                        <option>Last year</option>
+                    </select>
+                </div>
+                <div class="col-md-3 filter-control">
+                    <label class="filter-label">Customer Segment</label>
+                    <select class="form-select" id="segmentFilter">
+                        <option selected>All Segments</option>
+                        <option>New Customers</option>
+                        <option>Long-term Customers</option>
+                        <option>High-value Customers</option>
+                    </select>
+                </div>
+                <div class="col-md-3 filter-control">
+                    <label class="filter-label">Service Type</label>
+                    <select class="form-select" id="serviceFilter">
+                        <option selected>All Services</option>
+                        <option>DSL</option>
+                        <option>Fiber Optic</option>
+                        <option>No Internet Service</option>
+                    </select>
+                </div>
+                <div class="col-md-3 filter-control">
+                    <label class="filter-label">Contract Type</label>
+                    <select class="form-select" id="contractFilter">
+                        <option selected>All Contracts</option>
+                        <option>Month-to-month</option>
+                        <option>One year</option>
+                        <option>Two year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-end">
+                    <button class="btn btn-primary me-2" id="applyFilters">
+                        <i class="fas fa-filter me-1"></i> Apply Filters
+                    </button>
+                    <button class="btn btn-outline-secondary" id="resetFilters">
+                        <i class="fas fa-redo me-1"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-label">Total Customers</div>
+                    <div class="stats-value text-primary"></div>
+                    <div class="stats-change text-success">
+                        <i class="fas fa-arrow-up"></i> 3.2% from last month
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-label">Churn Rate</div>
+                    <div class="stats-value text-warning"></div>
+                    <div class="stats-change text-danger">
+                        <i class="fas fa-arrow-up"></i> 1.7% from last month
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-label">Avg. Monthly Charges</div>
+                    <div class="stats-value text-info"></div>
+                    <div class="stats-change text-success">
+                        <i class="fas fa-arrow-down"></i> 2.1% from last month
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="stats-label">Avg. Tenure</div>
+                    <div class="stats-value text-success"></div>
+                    <div class="stats-change text-success">
+                        <i class="fas fa-arrow-up"></i> 0.8% from last month
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Tabs -->
+        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
+                    type="button" role="tab">Overview</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="demographics-tab" data-bs-toggle="tab" data-bs-target="#demographics"
+                    type="button" role="tab">Demographics</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button"
+                    role="tab">Services</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="financials-tab" data-bs-toggle="tab" data-bs-target="#financials"
+                    type="button" role="tab">Financials</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="dashboardTabContent">
+            <!-- Overview Tab -->
+            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Overall Churn Rate</div>
+                            <div class="chart-container">
+                                <canvas id="churnRateChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn Rate by Tenure</div>
+                            <div class="chart-container">
+                                <canvas id="tenureChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demographics Tab -->
+            <div class="tab-pane fade" id="demographics" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Gender</div>
+                            <div class="chart-container">
+                                <canvas id="genderChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Senior Citizen Status</div>
+                            <div class="chart-container">
+                                <canvas id="seniorChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Partner Status</div>
+                            <div class="chart-container">
+                                <canvas id="partnerChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Dependents</div>
+                            <div class="chart-container">
+                                <canvas id="dependentsChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div class="tab-pane fade" id="services" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Internet Service Type</div>
+                            <div class="chart-container">
+                                <canvas id="internetChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Churn by Contract Type</div>
+                            <div class="chart-container">
+                                <canvas id="contractChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">Churn by Payment Method</div>
+                            <div class="chart-container">
+                                <canvas id="paymentChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="card">
+                            <div class="card-header">Churn by Phone Service</div>
+                            <div class="chart-container">
+                                <canvas id="phoneChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financials Tab -->
+            <div class="tab-pane fade" id="financials" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Monthly Charges Distribution</div>
+                            <div class="chart-container">
+                                <canvas id="monthlyChargesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Total Charges Distribution</div>
+                            <div class="chart-container">
+                                <canvas id="totalChargesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">Churn Rate by Monthly Charges Groups</div>
+                            <div class="chart-container">
+                                <canvas id="monthlyGroupsChurnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="main.js" type="text/javascript"></script>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fb;
+    color: #333;
+}
+
+.dashboard-header {
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
+    border: none;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid #eaeaea;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.filter-section {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.stats-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stats-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.stats-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    padding: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+    background: transparent;
+}
+
+.tab-content {
+    padding: 1.5rem 0;
+}
+
+.filter-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.filter-control {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+}
