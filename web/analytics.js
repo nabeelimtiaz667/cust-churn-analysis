@@ -165,7 +165,28 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Churn Rate by Partnership Status'
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true, // Enable stacking
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            // This keeps the axis as count, but to show rate, we need to pre-calculate percentages. See note below.
+                            return value;
+                        }
+                    }
+                }
+            }
         }
     });
 
@@ -190,7 +211,28 @@ document.addEventListener('DOMContentLoaded', async function () {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Churn Rate by Dependent Status'
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true, // Enable stacking
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            // This keeps the axis as count, but to show rate, we need to pre-calculate percentages. See note below.
+                            return value;
+                        }
+                    }
+                }
+            }
         }
     });
 

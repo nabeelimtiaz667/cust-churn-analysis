@@ -57,16 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Vertical Navbar Collapse Logic
-    const verticalNavbar = document.getElementById('verticalNavbar');
-    const verticalCollapseBtn = document.getElementById('verticalCollapseBtn');
-
-    if (verticalCollapseBtn && verticalNavbar) {
-        verticalCollapseBtn.addEventListener('click', function () {
-            verticalNavbar.classList.toggle('expanded');
-        });
-    }
-
     if (collapseBtn) {
         collapseBtn.addEventListener('click', function () {
             isCollapsed = !isCollapsed;

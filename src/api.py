@@ -1,31 +1,23 @@
-from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
+import os
 import pandas as pd
-from typing import Optional, List
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from typing import Optional
+from model import CalibratedModel, PredictionInput, PredictionOutput
 
-app = FastAPI()
-
-# Allow CORS for local development
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-DATA_PATH = "data.csv"
-df = pd.read_csv(DATA_PATH)
-df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
+DATA_PATH = os.getenv("DATA_PATH", "./data.csv")
+MODEL_PATH = os.getenv("MODEL_PATH", "utils/best_model.joblib")
+BIN_PATH = os.getenv("BIN_PATH", "utils/binning_transformers.joblib")
 
 
 def apply_filters(
+    dataframe,
     time_period: Optional[str] = None,
     segment: Optional[str] = None,
     service: Optional[str] = None,
     contract: Optional[str] = None,
 ):
-    data = df.copy()
+    data = dataframe.copy()
     # Time period filter (example: Last 30 days = tenure <= 1)
     if time_period:
         if time_period == "Last 30 days":
@@ -53,14 +45,60 @@ def apply_filters(
     return data
 
 
-# Testing route
-@app.get("/test")
-def test():
-    return {"message": "Hello, FastAPI!"}
+app = FastAPI()
+
+# Allow CORS for local development
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.on_event("startup")
+async def load_model():
+    try:
+        app.state.model = CalibratedModel(MODEL_PATH, BIN_PATH)
+        print("Model loaded successfully")
+
+        df = pd.read_csv(DATA_PATH)
+        df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
+        df = df.dropna()
+        app.state.data = df.copy()
+        print("DataFrame loaded successfully")
+    except Exception as e:
+        print(f"Error loading model or dataframe: {e}")
+        raise
+
+
+@app.get("/")
+async def root():
+    return {"message": "Model & Analytics API Running"}
+
+
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "healthy",
+        "model_loaded": hasattr(app.state, "model"),
+        "data_loaded": hasattr(app.state, "data"),
+    }
+
+
+@app.post("/predict", response_model=PredictionOutput)
+async def predict(input_data: PredictionInput):
+    try:
+        result = app.state.model.predict(input_data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/filters")
-def get_filters():
+async def get_filters():
+    data = app.state.data.copy()
     return {
         "time_periods": ["Last 30 days", "Last 90 days", "Last 6 months", "Last year"],
         "segments": [
@@ -70,21 +108,20 @@ def get_filters():
             "High-value Customers",
         ],
         "services": ["All Services"]
-        + sorted(df["InternetService"].dropna().unique().tolist()),
+        + sorted(data["InternetService"].dropna().unique().tolist()),
         "contracts": ["All Contracts"]
-        + sorted(df["Contract"].dropna().unique().tolist()),
+        + sorted(data["Contract"].dropna().unique().tolist()),
     }
 
 
 @app.get("/stats")
-def get_stats(
+async def get_stats(
     time_period: Optional[str] = None,
     segment: Optional[str] = None,
     service: Optional[str] = None,
     contract: Optional[str] = None,
 ):
-    data = df.copy()
-    data = apply_filters(time_period, segment, service, contract)
+    data = apply_filters(app.state.data, time_period, segment, service, contract)
     total_customers = len(data)
     churn_rate = round((data["Churn"] == "Yes").mean() * 100, 2)
     avg_monthly = round(data["MonthlyCharges"].mean(), 2)
@@ -98,15 +135,14 @@ def get_stats(
 
 
 @app.get("/chart/{chart_name}")
-def get_chart_data(
+async def get_chart_data(
     chart_name: str,
     time_period: Optional[str] = None,
     segment: Optional[str] = None,
     service: Optional[str] = None,
     contract: Optional[str] = None,
 ):
-    data = df.copy()
-    data = apply_filters(time_period, segment, service, contract)
+    data = apply_filters(app.state.data, time_period, segment, service, contract)
     if chart_name == "churnRate":
         churn_counts = data["Churn"].value_counts()
         return {
