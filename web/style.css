@@ -108,6 +108,7 @@ body {
     outline: none;
     font-size: 1rem;
     flex: 1;
+    margin-bottom: 0rem;
     margin-right: 0.5rem;
     background: transparent;
 }
@@ -288,8 +289,9 @@ body {
     color: #495057;
 }
 
-.filter-control {
-    margin-bottom: 1.5rem;
+.filter-control,
+.form-control {
+    margin-bottom: 1.5rem !important;
 }
 
 .section-title {
@@ -300,4 +302,25 @@ body {
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--primary-color);
     display: inline-block;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 2px var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    box-shadow: 0 2px 8px rgba(67, 97, 238, 0.15);
+}
+
+input[type="submit"],
+button[type="submit"]:hover {
+    background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+}
+
+.border-primary {
+    border-color: var(--primary-color) !important;
 }

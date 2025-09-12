@@ -1,0 +1,19 @@
+ 1   gender            7043 non-null   object('male', 'female') 
+ 2   SeniorCitizen     7043 non-null   object  ('yes': 1, 'no': 0)
+ 3   Partner           7043 non-null   object ('yes': 1, 'no': 0) 
+ 4   Dependents        7043 non-null   object ('yes': 1, 'no': 0) 
+ 5   tenure            7043 non-null   int64  
+ 6   PhoneService      7043 non-null   object ('yes': 1, 'no': 0) 
+ 7   MultipleLines     7043 non-null   object ('yes': 1, 'no': 0, 'no phone service': -1) 
+ 8   InternetService   7043 non-null   object ('fibre optic': 1, 'dsl': 2, 'no': 0) 
+ 9   OnlineSecurity    7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 10  OnlineBackup      7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 11  DeviceProtection  7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 12  TechSupport       7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 13  StreamingTV       7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 14  StreamingMovies   7043 non-null   object ('no': 0, 'yes': 1, 'no internet service': -1)
+ 15  Contract          7043 non-null   string ('month-to-month', 'one year', 'two year')
+ 16  PaperlessBilling  7043 non-null   object ('no': 0, 'yes': 1)
+ 17  PaymentMethod     7043 non-null   object ('electronic check': 0, 'mailed check': 1, 'bank transfer (automatic)': 2, 'other': 3)
+ 18  MonthlyCharges    7043 non-null   float64
+ 19  TotalCharges      7043 non-null   float64 

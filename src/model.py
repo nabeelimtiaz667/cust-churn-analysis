@@ -95,5 +95,5 @@ class CalibratedModel:
             probability=float(probability),
             prediction=prediction,
             prediction_label=prediction_label,
-            features=features,
+            # features=features,
         )
